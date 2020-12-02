@@ -38,6 +38,7 @@
 
                         <% for(String p : paises){%>
                         <option value="<%=p%>" > <%=p%></option>
+                        <%}%>
 
                     </select>
                 </div>
