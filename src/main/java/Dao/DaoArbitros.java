@@ -23,14 +23,7 @@ public class DaoArbitros extends DaoBase {
                 Arbitros arbitro = new Arbitros();
                 arbitro.setIdArbitros(rs.getInt(1));
                 arbitro.setNombre(rs.getString(2));
-                arbitro.setPais(rs.getInt(1));
-                department.setDepartmentId(rs.getInt(1));
-                department.setDepartmentName(rs.getString(2));
-                department.setManagerId(rs.getInt(3));
-                department.setLocationId(rs.getInt(4));
 
-
-                listaDepartamentos.add(department);
             }
 
         } catch (SQLException e) {

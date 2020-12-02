@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "PartidosServlet", urlPatterns = {"/PartidosServlet", ""})
 public class PartidosServlet extends HttpServlet {
@@ -36,18 +37,27 @@ public class PartidosServlet extends HttpServlet {
 
         String action = request.getParameter("action") == null ? "lista" : request.getParameter("action");
         RequestDispatcher view;
+
+        DaoPartidos daoPartidos = new DaoPartidos();
+        DaoSelecciones daoSelecciones = new DaoSelecciones();
+        DaoArbitros daoArbitros = new DaoArbitros();
+
         switch (action) {
             case "lista":
-                /*
-                Inserte su código aquí
-                 */
+                ArrayList<Partidos> partidos = daoPartidos.listaDePartidos();
+                request.setAttribute("partidosLista",partidos);
                 view = request.getRequestDispatcher("index.jsp");
                 view.forward(request, response);
                 break;
             case "crear":
-                /*
-                Inserte su código aquí
-                 */
+                ArrayList<SeleccionesNacionales> selecciones = daoSelecciones.listarSelecciones();
+                request.setAttribute("selecciones", selecciones);
+
+                ArrayList<Arbitros> arbitros = daoArbitros.listarArbitros();
+                request.setAttribute("arbitros", arbitros);
+
+                view = request.getRequestDispatcher("/Partidos/form.jsp");
+                view.forward(request, response);
                 break;
 
         }
