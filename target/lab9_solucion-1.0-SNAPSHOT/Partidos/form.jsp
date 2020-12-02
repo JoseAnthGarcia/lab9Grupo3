@@ -1,10 +1,6 @@
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="Bean.SeleccionesNacionales" %>
-<%@ page import="Bean.Arbitros" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:useBean id="selecciones" scope="request" type="java.util.ArrayList<Bean.SeleccionesNacionales>"/>
-<jsp:useBean id="arbitros" scope="request" type="java.util.ArrayList<Bean.Arbitros>"/>
 
 <html>
 <head>
@@ -31,25 +27,19 @@
                 <div class="form-group">
                     <label>Selección local</label>
                     <select name="local" class="form-control">
-                        <%for(SeleccionesNacionales seleccion : selecciones){%>
-                        <option value="<%=seleccion.getIdSeleccionesNacionales()%>"><%=seleccion.getNombre()%></option>
-                        <%}%>
+<%--                       COLOCAR LISTA DE SELECCIONES DE LA BASE DE DATOS--%>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Selección Visitante</label>
                     <select name="visitante" class="form-control">
-                        <%for(SeleccionesNacionales seleccion : selecciones){%>
-                        <option value="<%=seleccion.getIdSeleccionesNacionales()%>"><%=seleccion.getNombre()%></option>
-                        <%}%>
+<%--                        COLOCAR LISTA DE SELECCIONES DE LA BASE DE DATOS--%>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Árbitro</label>
                     <select name="arbitro" class="form-control">
-                        <%for(Arbitros arbitro : arbitros){%>
-                        <option value="<%=arbitro.getIdArbitros()%>"><%=arbitro.getNombre()%></option>
-                        <%}%>
+<%--                        COLOCAR LISTA DE ÁRBITRO DE LA BASE DE DATOS--%>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Guardar</button>
