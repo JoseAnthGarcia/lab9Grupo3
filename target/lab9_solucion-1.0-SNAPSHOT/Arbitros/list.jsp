@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="listaArbitros" type="java.util.ArrayList<Bean.Arbitros>" scope="request" />
 <jsp:useBean id="opciones" type="java.util.ArrayList<java.lang.String>" scope="request" />
+
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -46,7 +47,7 @@
             <th></th>
         </tr>
         <%
-            int i = 1;
+            int c = 1;
             for (Arbitros a : listaArbitros) {
         %>
         <tr>
@@ -54,13 +55,13 @@
             <td><%= a.getNombre()%></td>
             <td><%= a.getPais()%></td>
             <td>
-                <a href="<%=request.getContextPath()%>/ArbitrosServlet?action=borrar&id=">
+                <a href="<%=request.getContextPath()%>/ArbitrosServlet?action=borrar&id=<%=a.getIdArbitros()%>">
                     Borrar
                 </a>
             </td>
         </tr>
         <%
-                i++;
+                c++;
             }
         %>
 
