@@ -2,11 +2,8 @@ package Dao;
 
 import Bean.Arbitros;
 
+import java.sql.*;
 import java.util.ArrayList;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public class DaoArbitros extends DaoBase {
     public ArrayList<Arbitros> listarArbitros() {
@@ -26,8 +23,8 @@ public class DaoArbitros extends DaoBase {
                 arbitro.setPais(rs.getString(3));
 
 
+                arbitros.add(arbitro);
 
-                listaDepartamentos.add(department);
             }
 
         } catch (SQLException e) {
@@ -47,18 +44,59 @@ public class DaoArbitros extends DaoBase {
     public ArrayList<Arbitros> busquedaPais(String pais) {
 
         ArrayList<Arbitros> arbitros = new ArrayList<>();
-        /*
-                Inserte su código aquí
-                 */
+
+        String sql = "SELECT * FROM sw1lab8.arbitros where lower(pais) like ?;";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);) {
+
+            pstmt.setString(1,"%"+pais+"%");
+
+
+            try (ResultSet rs = pstmt.executeQuery();) {
+
+                while (rs.next()) {
+                    Arbitros arbitros1 = new Arbitros();
+                    arbitros1.setIdArbitros(rs.getInt(1));
+                    arbitros1.setNombre(rs.getString(2));
+                    arbitros1.setPais(rs.getString(3));
+                    arbitros.add(arbitros1);
+
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+
         return arbitros;
     }
 
     public ArrayList<Arbitros> busquedaNombre(String nombre) {
 
         ArrayList<Arbitros> arbitros = new ArrayList<>();
-        /*
-                Inserte su código aquí
-                 */
+        String sql = "SELECT * FROM sw1lab8.arbitros where lower(nombre) like ?;";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);) {
+
+            pstmt.setString(1,"%"+nombre+"%");
+
+
+            try (ResultSet rs = pstmt.executeQuery();) {
+
+                while (rs.next()) {
+                    Arbitros arbitros1 = new Arbitros();
+                    arbitros1.setIdArbitros(rs.getInt(1));
+                    arbitros1.setNombre(rs.getString(2));
+                    arbitros1.setPais(rs.getString(3));
+                    arbitros.add(arbitros1);
+
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
         return arbitros;
     }
 
@@ -76,6 +114,25 @@ public class DaoArbitros extends DaoBase {
         /*
                 Inserte su código aquí
                  */
+    }
+    public boolean buscarNombre(String nombre) {
+        boolean encontrado = false;
+
+        String sql = "SELECT * FROM arbitros WHERE nombre = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);) {
+            pstmt.setString(1, nombre);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    encontrado = true;
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return encontrado;
     }
 
 }

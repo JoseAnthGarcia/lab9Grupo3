@@ -1,6 +1,6 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<jsp:useBean id="paises" type="java.util.ArrayList<java.lang.String>" scope="request" />
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -16,7 +16,14 @@
             <form method="POST" action="<%=request.getContextPath()%>/ArbitrosServlet?action=guardar">
                 <div class="form-group">
                     <label>Nombre</label>
-                    <input type="text" class="form-control" name="nombre">
+
+                    <input type="text" class="form-control <%=nombreB?"":"is-invalid"%>"
+                           aria-describedby="inputNombreFeedback"
+                           name="nombre"
+                           id="inputEmail" <%=request.getParameter("correo")==null?"":"value='"+request.getParameter("correo")+"'"%>>
+                    <div id="inputEmailFeedback" class="invalid-feedback">
+                        Este nombre ya se encuentra en la base de datos.
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>País</label>
