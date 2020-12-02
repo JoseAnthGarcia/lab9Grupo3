@@ -128,8 +128,8 @@ public class ArbitrosServlet extends HttpServlet {
                         daoArbitros.borrarArbitro(arbitroId);
                     }
                 }
+                response.sendRedirect(request.getContextPath()+"/ArbitrosServlet");
 
-                response.sendRedirect("EmployeeServlet");
                 break;
 
         }
