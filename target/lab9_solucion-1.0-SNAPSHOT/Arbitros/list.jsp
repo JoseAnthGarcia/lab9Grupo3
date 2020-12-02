@@ -1,4 +1,7 @@
+<%@ page import="Bean.Arbitros" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:useBean id="listaArbitros" type="java.util.ArrayList<Bean.Arbitros>" scope="request" />
+<jsp:useBean id="opciones" type="java.util.ArrayList<java.lang.String>" scope="request" />
 
 <html>
 <head>
@@ -19,7 +22,10 @@
         <form method="post" action="<%= request.getContextPath()%>/ArbitrosServlet?action=buscar" class="row">
             <div class="col-lg-3">
                 <select name="tipo" class="form-control">
-<%--                    ACA DEBE COLOCAR LA LISTA DE OPCIONES MOSTRADAS EN EL SERVLET--%>
+                    <%int i =1;%>
+                    <% for(String o : opciones){%>
+                    <option value="<%=i%>" > <%=o%></option>
+                    <% i++;}%>
                 </select>
             </div>
             <div class="col-lg-5">
@@ -40,16 +46,25 @@
             <th>Pais</th>
             <th></th>
         </tr>
+        <%
+            int c = 1;
+            for (Arbitros a : listaArbitros) {
+        %>
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><%= i%></td>
+            <td><%= a.getNombre()%></td>
+            <td><%= a.getPais()%></td>
             <td>
-                <a href="<%=request.getContextPath()%>/ArbitrosServlet?action=borrar&id=">
+                <a href="<%=request.getContextPath()%>/ArbitrosServlet?action=borrar&id=<%=a.getIdArbitros()%>">
                     Borrar
                 </a>
             </td>
         </tr>
+        <%
+                c++;
+            }
+        %>
+
     </table>
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

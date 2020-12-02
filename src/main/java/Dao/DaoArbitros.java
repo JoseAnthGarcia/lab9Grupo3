@@ -36,9 +36,19 @@ public class DaoArbitros extends DaoBase {
 
     public void crearArbitro(Arbitros arbitros) {
 
-        /*
-                Inserte su código aquí
-                 */
+        String sql = "INSERT INTO arbitros(nombre, pais)\n" +
+                "VALUES (?, ?);";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);) {
+
+            pstmt.setString(1, arbitros.getNombre());
+            pstmt.setString(2, arbitros.getPais());
+
+            pstmt.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public ArrayList<Arbitros> busquedaPais(String pais) {
@@ -50,7 +60,7 @@ public class DaoArbitros extends DaoBase {
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);) {
 
-            pstmt.setString(1,"%"+pais+"%");
+            pstmt.setString(1,pais + "%");
 
 
             try (ResultSet rs = pstmt.executeQuery();) {
@@ -80,7 +90,7 @@ public class DaoArbitros extends DaoBase {
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);) {
 
-            pstmt.setString(1,"%"+nombre+"%");
+            pstmt.setString(1,nombre + "%");
 
 
             try (ResultSet rs = pstmt.executeQuery();) {
@@ -103,17 +113,37 @@ public class DaoArbitros extends DaoBase {
     public Arbitros buscarArbitro(int id){
 
         Arbitros arbitros = new Arbitros();
-        /*
-                Inserte su código aquí
-                 */
+        String sql = "SELECT * FROM sw1lab8.arbitros where idArbitros = ?;";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);) {
+
+            pstmt.setInt(1, id);
+
+            try (ResultSet rs = pstmt.executeQuery();) {
+
+                if (rs.next()) {
+                    arbitros.setIdArbitros(rs.getInt(1));
+                    arbitros.setNombre(rs.getString(2));
+                    arbitros.setPais(rs.getString(3));
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
         return arbitros;
     }
 
     public void borrarArbitro(int id){
 
-        /*
-                Inserte su código aquí
-                 */
+        try (Connection conn = getConnection();
+              PreparedStatement pstmt = conn.prepareStatement("DELETE FROM arbitros WHERE idArbitros = ?");) {
+
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
     public boolean buscarNombre(String nombre) {
         boolean encontrado = false;
