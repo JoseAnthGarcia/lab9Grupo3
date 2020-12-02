@@ -2,9 +2,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="paises" type="java.util.ArrayList<java.lang.String>" scope="request" />
 <%
-    boolean nombresB = request.getAttribute("nombresB") == null ? true : (Boolean) request.getAttribute("nombresB");
+    boolean nombreB = request.getAttribute("nombreB") == null ? true : (Boolean) request.getAttribute("nombreB");
 
-    boolean nombreExis = request.getAttribute("correoExis") == null ? false : (Boolean) request.getAttribute("correoExis");
+    boolean nombreExis = request.getAttribute("nombreExis") == null ? false : (Boolean) request.getAttribute("nombreExis");
 
 %>
 <html>
@@ -26,15 +26,19 @@
                     <input type="text" class="form-control <%=nombreB?"":"is-invalid"%>"
                            aria-describedby="inputNombreFeedback"
                            name="nombre"
-                           id="inputEmail" <%=request.getParameter("correo")==null?"":"value='"+request.getParameter("correo")+"'"%>>
+                           id="inputEmail" <%=request.getParameter("nombre")==null?"":"value='"+request.getParameter("nombre")+"'"%>>
                     <div id="inputEmailFeedback" class="invalid-feedback">
-                        Este nombre ya se encuentra en la base de datos.
+                        Este nombre ya se encuentra en la base de datos .
                     </div>
                 </div>
                 <div class="form-group">
                     <label>País</label>
+
                     <select name="pais" class="form-control">
-<%--                        COLOCAR LISTA DE PAÍSES BRINDADA EN EL SERVLET--%>
+
+                        <% for(String p : paises){%>
+                        <option value="<%=p%>" > <%=p%></option>
+
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Guardar</button>
