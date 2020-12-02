@@ -5,10 +5,7 @@ import Bean.Estadios;
 import Bean.Partidos;
 import Bean.SeleccionesNacionales;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -64,11 +61,46 @@ public class DaoPartidos extends DaoBase{
         return partidos;
     }
 
-    public void crearPartido(Partidos partidos){
+    public void crearPartido(Partidos partido){
+        String sql = "INSERT INTO partidos(fecha, numeroJornada, seleccionLocal, seleccionVisitante, arbitro)\n" +
+                "VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);) {
 
-        /*
-                Inserte su código aquí
-                 */
+            pstmt.setString(1, partido.getFecha());
+            pstmt.setInt(2, partido.getNumeroJornada());
+            pstmt.setInt(3, partido.getSeleccionLocal().getIdSeleccionesNacionales());
+            pstmt.setInt(4, partido.getSeleccionVisitante().getIdSeleccionesNacionales());
+            pstmt.setInt(5, partido.getArbitro().getIdArbitros());
+
+            pstmt.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public boolean bucarPartido(int idLocal, int idVisitante){
+
+        boolean exitPartido=false;
+
+        String sql = "SELECT * FROM partidos WHERE seleccionLocal=? AND seleccionVisitante=?;";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);) {
+
+            pstmt.setInt(1, idLocal);
+            pstmt.setInt(2, idVisitante);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    exitPartido=true;
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return exitPartido;
     }
 
 

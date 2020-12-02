@@ -26,7 +26,7 @@ public class DaoSelecciones extends DaoBase{
                 seleccion.setTecnico(rs.getString(3));
 
                 Estadios estadio = new Estadios();
-                estadio.setIdEstadios(rs.getInt("4"));
+                estadio.setIdEstadios(rs.getInt(4));
                 seleccion.setEstadio(estadio);
 
                 seleccionesNacionalesArrayList.add(seleccion);

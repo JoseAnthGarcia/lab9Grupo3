@@ -17,17 +17,68 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @WebServlet(name = "PartidosServlet", urlPatterns = {"/PartidosServlet", ""})
+
 public class PartidosServlet extends HttpServlet {
+
+    public boolean validarString(String input){
+        boolean valido = true;
+        if(input.equals("")){
+            valido=false;
+        }
+        return valido;
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action") == null ? "lista" : request.getParameter("action");
         RequestDispatcher view;
 
+        DaoPartidos daoPartidos = new DaoPartidos();
+
         switch (action) {
 
             case "guardar":
-                /*
-                Inserte su código aquí
-                 */
+                String jornada = request.getParameter("jornada");
+                String fecha = request.getParameter("fecha");
+                String local = request.getParameter("local");
+                String visitante = request.getParameter("visitante");
+                String arbitro = request.getParameter("arbitro");
+
+                int localInt = Integer.parseInt(local);
+                int visitanteInt = Integer.parseInt(visitante);
+
+                boolean mismoEquipo = false;
+                if(localInt==visitanteInt){
+                    mismoEquipo=true;
+                }
+
+                boolean exitPartido = daoPartidos.bucarPartido(localInt, visitanteInt);
+
+
+                if(validarString(jornada) &&
+                validarString(fecha) &&
+                        validarString(local) &&
+                        validarString(visitante) &&
+                        validarString(arbitro) &&
+                        !mismoEquipo && !exitPartido
+                ){
+                    Partidos partido = new Partidos();
+                    partido.setFecha(fecha);
+                    partido.setNumeroJornada(Integer.parseInt(jornada));
+                    SeleccionesNacionales localS = new SeleccionesNacionales();
+                    localS.setIdSeleccionesNacionales(localInt);
+                    partido.setSeleccionLocal(localS);
+                    SeleccionesNacionales visitanteS = new SeleccionesNacionales();
+                    visitanteS.setIdSeleccionesNacionales(visitanteInt);
+                    partido.setSeleccionVisitante(visitanteS);
+                    Arbitros arbitroP = new Arbitros();
+                    arbitroP.setIdArbitros(Integer.parseInt(arbitro));
+                    partido.setArbitro(arbitroP);
+                    daoPartidos.crearPartido(partido);
+                    response.sendRedirect(request.getContextPath()+"/PartidosServlet");
+                }else{
+                    response.sendRedirect(request.getContextPath()+"/PartidosServlet?action=crear");
+                }
+
                 break;
 
         }
