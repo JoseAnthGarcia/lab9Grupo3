@@ -43,7 +43,7 @@ public class ArbitrosServlet extends HttpServlet {
 
             case "buscar":
                 ArrayList<Arbitros> listaBusqueda = new ArrayList<>();
-                String textoBuscar = request.getParameter("textoBuscar");
+                String textoBuscar = request.getParameter("buscar");
                 if(Integer.parseInt(request.getParameter(("tipo")))==1){
                     listaBusqueda=daoArbitros.busquedaNombre(textoBuscar);
             }

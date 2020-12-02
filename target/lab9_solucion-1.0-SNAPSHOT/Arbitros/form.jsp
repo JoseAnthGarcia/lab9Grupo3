@@ -1,6 +1,12 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="paises" type="java.util.ArrayList<java.lang.String>" scope="request" />
+<%
+    boolean nombresB = request.getAttribute("nombresB") == null ? true : (Boolean) request.getAttribute("nombresB");
+
+    boolean nombreExis = request.getAttribute("correoExis") == null ? false : (Boolean) request.getAttribute("correoExis");
+
+%>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
