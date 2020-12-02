@@ -20,7 +20,10 @@ public class DaoArbitros extends DaoBase {
             ResultSet rs = stmt.executeQuery("SELECT * FROM sw1lab8.arbitros;");
 
             while (rs.next()) {
-
+                Arbitros arbitro = new Arbitros();
+                arbitro.setIdArbitros(rs.getInt(1));
+                arbitro.setNombre(rs.getString(2));
+                arbitro.setPais(rs.getInt(1));
                 department.setDepartmentId(rs.getInt(1));
                 department.setDepartmentName(rs.getString(2));
                 department.setManagerId(rs.getInt(3));
